@@ -6,3 +6,4 @@ gevent
 mysql-python
 eru-py
 APScheduler
+python-openid
