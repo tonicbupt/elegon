@@ -123,6 +123,7 @@ class CronJob(Base):
 
     def set_status(self, status):
         self.status = status
+        self.finish_at = datetime.datetime.now()
         db.session.add(self)
         db.session.commit()
 

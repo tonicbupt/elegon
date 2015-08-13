@@ -64,7 +64,8 @@ def run_crontab(crontab_id):
             task = eru.get_task(task_id)
             if not task['finished']:
                 continue
-            crontab.add_job(task['container_id'])
+            print task
+            crontab.add_job(task['props']['container_ids'][0])
             break
         except EruException as e:
             break

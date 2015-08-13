@@ -20,6 +20,6 @@
       {% endfor %}
     </tbody>
   </table>
-  {{utils.paginator(g.start, total, g.limit, endpoint)}}
+  {{utils.paginator(g.start, total, g.limit, endpoint, crontab_id=crontab.id)}}
 
 {% endblock %}

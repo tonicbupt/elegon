@@ -80,7 +80,8 @@ def crontab(crontab_id):
 def history(crontab_id):
     crontab = _get_crontab(crontab_id)
     total, cronjobs = crontab.list_jobs(g.start, g.limit)
-    return rt('/history.html', cronjobs=cronjobs, total=total)
+    return rt('/history.html', crontab=crontab, cronjobs=cronjobs,
+            total=total, endpoint='crontab.history')
 
 @bp.route('/callback/', methods=['POST'])
 def callback():
@@ -98,4 +99,6 @@ def callback():
         cronjob.set_status('finished')
     elif status == 'start':
         cronjob.set_status('running')
+
+    eru.remove_containers([container_id, ])
     return ''
