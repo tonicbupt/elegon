@@ -1,0 +1,105 @@
+{% extends "/base.html" %}
+{% import "/utils.html" as utils %}
+
+{% block main %}
+  <form class="form-horizontal" method="post" action="{{url_for('crontab.create')}}">
+    {% with errors = get_flashed_messages(category_filter=['error'])%}
+      {% if errors %}
+        <div class="form-group">
+          {% for error in errors %}
+            <label class="text-danger col-sm-offset-2 col-sm-4">
+              <span class="fui-cross-circle"></span> {{error}}
+            </label>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Crontab Name</label>
+      <div class="col-sm-4">
+        <input name="name" type="text" class="form-control" placeholder="Name">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">App Name</label>
+      <div class="col-sm-4">
+        <input name="appname" type="text" class="form-control" placeholder="App Name">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Version</label>
+      <div class="col-sm-4">
+        <select class="form-control select select-primary select-block mbl" name="version">
+          <option value="">Choose Version</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Entrypoint</label>
+      <div class="col-sm-4">
+        <select class="form-control select select-primary select-block mbl" name="entrypoint">
+          <option value="">Choose Entrypoint</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Group</label>
+      <div class="col-sm-4">
+        <select class="form-control select select-primary select-block mbl" name="group">
+          {% for group in groups %}
+          <option value="{{group.id}}">{{group.name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Pod</label>
+      <div class="col-sm-4">
+        <select class="form-control select select-primary select-block mbl" name="pod">
+          {% for pod in pods %}
+          <option value="{{pod.name}}">{{pod.name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Env</label>
+      <div class="col-sm-4">
+        <select class="form-control select select-primary select-block mbl" name="env">
+          <option value="">Choose Env</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Network</label>
+      <div class="col-sm-4">
+        <select class="form-control multiselect multiselect-primary" name="network_ids" multiple="multiple">
+          {% for net in networks %}
+          <option value="{{net.id}}">{{net.netspace}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Cron String</label>
+      <div class="col-sm-4">
+        <input name="cron" type="text" class="form-control" placeholder="Unix like Cron String">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-4">
+        <button type="submit" class="btn btn-primary">Create</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}
+
+{% block bottom_script %}
+  <script>
+    $('select').select2();
+    $('input[name=cron]').tooltip({
+      trigger: 'focus',
+      title: 'unix的cron string, 依次是 second, minute, hour, day, week, month, year',
+    })
+  </script>
+{% endblock %}

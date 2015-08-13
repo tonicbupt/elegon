@@ -1,0 +1,37 @@
+{% extends "/base.html" %}
+{% import "/utils.html" as utils %}
+
+{% block main %}
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <td>Name</td>
+        <td>{{crontab.name}}</td>
+      </tr>
+      <tr>
+        <td>Crontab</td>
+        <td>{{cronstring}}</td>
+      </tr>
+      {% for key in ['appname', 'version', 'entrypoint', 'env', 'network_ids'] %}
+      <tr>
+        <td>{{key}}</td>
+        <td>{{crontab.props.get(key, '')}}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td>Time</td>
+        <td>{{crontab.create_at}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row">
+    {% set on = crontab.status == 'on' %}
+    <div class="col-xs-3">
+      <input data-id="{{crontab.id}}" type="checkbox" {{'checked' if on else ''}} data-toggle="switch" name="default-switch" id="switch" />
+    </div>
+  </div>
+{% endblock %}
+
+{% block more_css %}
+  .indent-15-px { margin-left: 15px; }
+{% endblock %}

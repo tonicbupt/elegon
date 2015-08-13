@@ -1,0 +1,3 @@
+{% for e, v in entrypoints.iteritems() %}
+  <option value="{{e}}">{{e}}: {{v['cmd']}}</option>
+{% endfor %}

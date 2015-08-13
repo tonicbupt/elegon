@@ -1,0 +1,6 @@
+*.py[co]
+tests/__pycache__/*
+*.egg-info/*
+*.conf
+elegon/local_config.py
+local_config.py
