@@ -14,6 +14,10 @@ MYSQL_DATABASE = os.getenv('MYSQL_DATABASE', 'elegon')
 
 ERU_URL = os.getenv('ERU_URL', 'http://127.0.0.1:5000')
 
+OPENID2_YADIS = 'http://openids.intra.hunantv.com/server/yadis/'
+OPENID2_LOGOUT = 'http://openids.intra.hunantv.com/auth/logout/'
+
+
 DEBUG = bool(int(os.getenv('DEBUG', '1')))
 CALLBACK = os.getenv('CALLBACK', 'http://elegon-web.yg.hunantv.com/crontab/callback/')
 
