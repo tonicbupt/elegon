@@ -19,7 +19,7 @@ OPENID2_LOGOUT = 'http://openids.intra.hunantv.com/auth/logout/'
 
 
 DEBUG = bool(int(os.getenv('DEBUG', '1')))
-CALLBACK = os.getenv('CALLBACK', 'http://elegon-web.yg.hunantv.com/crontab/callback/')
+SERVER_NAME = os.getenv('SERVER_NAME', 'localhost')
 
 try:
     from .local_config import *

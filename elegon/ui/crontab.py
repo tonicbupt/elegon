@@ -83,22 +83,26 @@ def history(crontab_id):
     return rt('/history.html', crontab=crontab, cronjobs=cronjobs,
             total=total, endpoint='crontab.history')
 
-@bp.route('/callback/', methods=['POST'])
-def callback():
+@bp.route('/<int:crontab_id>/callback/', methods=['POST'])
+def callback(crontab_id):
+    crontab = _get_crontab(crontab_id)
+    if not crontab:
+        return ''
+
     data = request.get_json()
     status = data.get('status', '')
+
     container_id = data.get('container_id', '')
     if not container_id:
         return ''
 
-    cronjob = CronJob.get_by_container_id(container_id)
-    if not cronjob:
-        return ''
-
-    if status == 'die':
+    if status == 'start':
+        crontab.add_job(container_id)
+    elif status == 'die':
+        cronjob = CronJob.get_by_container_id(container_id)
+        if not cronjob:
+            return ''
         cronjob.set_status('finished')
-    elif status == 'start':
-        cronjob.set_status('running')
+        eru.remove_containers([container_id, ])
 
-    eru.remove_containers([container_id, ])
     return ''

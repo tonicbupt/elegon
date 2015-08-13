@@ -1,9 +1,10 @@
 # coding: utf-8
 
+from flask import url_for
 from eruhttp import EruException
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from elegon.config import SQLALCHEMY_DATABASE_URI, DEBUG, CALLBACK
+from elegon.config import SQLALCHEMY_DATABASE_URI, DEBUG
 from elegon.ext import eru
 from elegon.models import Crontab
 from elegon.utils import run_with_appcontext
@@ -52,7 +53,8 @@ def run_crontab(crontab_id):
             props.get('entrypoint', ''),
             props.get('env', ''),
             props.get('network_ids', []),
-            callback_url=CALLBACK,
+            callback_url=url_for('crontab.callback',
+                crontab_id=crontab.id, _external=True),
         )
     except EruException as e:
         print e
