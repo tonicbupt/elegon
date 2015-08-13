@@ -8,4 +8,4 @@ entrypoints:
         cmd: "python app.py"
         ports:
             - "5000/tcp"
-build: "pip install -r ./requirements.txt"
+build: "pip install -r ./requirements.txt --index-url=http://pypi.douban.com/simple/"
