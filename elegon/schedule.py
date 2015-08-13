@@ -30,6 +30,7 @@ def get_crontab(crontab):
 
 @run_with_appcontext
 def run_crontab(crontab_id):
+    print 'run crontab'
     crontab = Crontab.get(crontab_id)
     if not crontab:
         return

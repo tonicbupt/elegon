@@ -1,7 +1,11 @@
 appname: "elegon"
 entrypoints:
     web:
-        cmd: "gunicorn app:app -b 0.0.0.0:5000"
+        cmd: "gunicorn -c gunicorn_config.py app:app"
+        ports:
+            - "5000/tcp"
+    raw:
+        cmd: "python app.py"
         ports:
             - "5000/tcp"
 build: "pip install -r ./requirements.txt"

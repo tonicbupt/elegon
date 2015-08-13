@@ -14,7 +14,7 @@ MYSQL_DATABASE = os.getenv('MYSQL_DATABASE', 'elegon')
 
 ERU_URL = os.getenv('ERU_URL', 'http://127.0.0.1:5000')
 
-DEBUG = bool(os.getenv('DEBUG', '1'))
+DEBUG = bool(int(os.getenv('DEBUG', '1')))
 CALLBACK = os.getenv('CALLBACK', 'http://elegon-web.yg.hunantv.com/crontab/callback/')
 
 try:
