@@ -1,12 +1,13 @@
 # coding: utf-8
 
+import time
 from flask import url_for
 from eruhttp import EruException
 from apscheduler.schedulers.background import BackgroundScheduler
 
 from elegon.config import SQLALCHEMY_DATABASE_URI, CRONTAB_DEBUG
 from elegon.ext import eru
-from elegon.models import Crontab
+from elegon.models import Crontab, CronJob
 from elegon.utils import run_with_appcontext
 
 _scheduler = None
@@ -48,7 +49,7 @@ def run_crontab(crontab_id):
     props = crontab.props
     callback_url = url_for('crontab.callback', crontab_id=crontab.id, _external=True)
     try:
-        eru.deploy_private(
+        r = eru.deploy_private(
             props.get('group', ''),
             props.get('pod', ''),
             props.get('appname', ''),
@@ -63,3 +64,20 @@ def run_crontab(crontab_id):
     except EruException as e:
         print e
         return
+
+    task_id = r['tasks'][0]
+    while True:
+        try:
+            task = eru.get_task(task_id)
+            if not task['finished']:
+                time.sleep(1)
+                continue
+            container_id = task['props']['container_ids'][0]
+
+            cronjob = CronJob.get_by_container_id(container_id)
+            if not cronjob:
+                crontab.add_job(container_id)
+                break
+        except EruException as e:
+            print e
+            break

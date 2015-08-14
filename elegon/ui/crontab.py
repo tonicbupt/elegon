@@ -89,9 +89,7 @@ def callback(crontab_id):
     if not crontab:
         return ''
 
-    import sys
     data = request.get_json()
-    print >> sys.stderr, data
     status = data.get('status', '')
 
     container_id = data.get('container_id', '')
@@ -99,13 +97,13 @@ def callback(crontab_id):
         return ''
 
     if status == 'start':
-        print >> sys.stderr, 'start and create'
-        crontab.add_job(container_id)
-    elif status == 'die':
-        print >> sys.stderr, 'stop and delete'
         cronjob = CronJob.get_by_container_id(container_id)
         if not cronjob:
-            return ''
+            crontab.add_job(container_id)
+    elif status == 'die':
+        cronjob = CronJob.get_by_container_id(container_id)
+        if not cronjob:
+            cronjob = crontab.add_job(container_id)
         cronjob.set_status('finished')
         eru.remove_containers([container_id, ])
 
