@@ -70,7 +70,6 @@ def run_crontab(crontab_id):
         try:
             task = eru.get_task(task_id)
             if not task['finished']:
-                time.sleep(1)
                 continue
             container_id = task['props']['container_ids'][0]
 
@@ -81,3 +80,4 @@ def run_crontab(crontab_id):
         except EruException as e:
             print e
             break
+        time.sleep(1)
