@@ -29,7 +29,7 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Version</label>
       <div class="col-sm-4">
-        <select class="form-control select select-primary select-block mbl" name="version">
+        <select class="form-control" name="version">
           <option value="">Choose Version</option>
         </select>
       </div>
@@ -37,7 +37,7 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Entrypoint</label>
       <div class="col-sm-4">
-        <select class="form-control select select-primary select-block mbl" name="entrypoint">
+        <select class="form-control" name="entrypoint">
           <option value="">Choose Entrypoint</option>
         </select>
       </div>
@@ -45,7 +45,7 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Group</label>
       <div class="col-sm-4">
-        <select class="form-control select select-primary select-block mbl" name="group">
+        <select class="form-control" name="group">
           {% for group in groups %}
           <option value="{{group.name}}">{{group.name}}</option>
           {% endfor %}
@@ -55,7 +55,7 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Pod</label>
       <div class="col-sm-4">
-        <select class="form-control select select-primary select-block mbl" name="pod">
+        <select class="form-control" name="pod">
           {% for pod in pods %}
           <option value="{{pod.name}}">{{pod.name}}</option>
           {% endfor %}
@@ -65,7 +65,7 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Env</label>
       <div class="col-sm-4">
-        <select class="form-control select select-primary select-block mbl" name="env">
+        <select class="form-control" name="env">
           <option value="">Choose Env</option>
         </select>
       </div>
@@ -73,11 +73,12 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Network</label>
       <div class="col-sm-4">
-        <select class="form-control multiselect multiselect-primary" name="network_ids" multiple="multiple">
-          {% for net in networks %}
-          <option value="{{net.id}}">{{net.netspace}}</option>
-          {% endfor %}
-        </select>
+        {% for net in networks %}
+        <p>
+          <input type="checkbox" name="network_ids" value="{{net.id}}" id="net{{net.id}}">
+          <label for="net{{net.id}}"><span class="ui"></span>{{net.netspace}}</label>
+        </p>
+        {% endfor %}
       </div>
     </div>
     <div class="form-group">
@@ -96,7 +97,6 @@
 
 {% block bottom_script %}
   <script>
-    $('select').select2();
     $('input[name=cron]').tooltip({
       trigger: 'focus',
       title: 'unix的cron string, 依次是 second, minute, hour, day, week, month, year',

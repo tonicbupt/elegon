@@ -9,7 +9,7 @@ $(document).ready(function() {
             type: 'GET',
             success: function(r) {
                 version.html(r.html);
-                version.val('');
+                version.trigger('change');
             },
         });
     });

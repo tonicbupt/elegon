@@ -63,6 +63,9 @@ def create():
         flash(u'输入参数不对', 'error')
         return redirect(url_for('crontab.create'))
 
+    network_ids = request.form.getlist('network_ids') or []
+    props['network_ids'] = network_ids
+
     c = Crontab.create(name, crontab_kwargs, props)
     if not c:
         flash(u'创建出错', 'error')
