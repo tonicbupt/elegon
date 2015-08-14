@@ -72,12 +72,13 @@ def run_crontab(crontab_id):
             task = eru.get_task(task_id)
             if not task['finished']:
                 continue
-            container_id = task['props']['container_ids'][0]
 
+            container_id = task['props']['container_ids'][0]
             cronjob = CronJob.get_by_container_id(container_id)
             if not cronjob:
                 crontab.add_job(container_id)
-                break
+
+            break
         except EruException as e:
             print e
             break
