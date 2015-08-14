@@ -89,8 +89,9 @@ def callback(crontab_id):
     if not crontab:
         return ''
 
+    import sys
     data = request.get_json()
-    print data
+    print >> sys.stderr, data
     status = data.get('status', '')
 
     container_id = data.get('container_id', '')
@@ -98,10 +99,10 @@ def callback(crontab_id):
         return ''
 
     if status == 'start':
-        print 'start and create'
+        print >> sys.stderr, 'start and create'
         crontab.add_job(container_id)
     elif status == 'die':
-        print 'stop and delete'
+        print >> sys.stderr, 'stop and delete'
         cronjob = CronJob.get_by_container_id(container_id)
         if not cronjob:
             return ''
