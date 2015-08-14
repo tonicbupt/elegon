@@ -67,6 +67,7 @@ def run_crontab(crontab_id):
 
     task_id = r['tasks'][0]
     while True:
+        time.sleep(1)
         try:
             task = eru.get_task(task_id)
             if not task['finished']:
@@ -80,4 +81,3 @@ def run_crontab(crontab_id):
         except EruException as e:
             print e
             break
-        time.sleep(1)
