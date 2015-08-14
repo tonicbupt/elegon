@@ -1,14 +1,16 @@
 # coding: utf-8
 
 import json
+import signal
 
 from flask import Flask, request, g
 from werkzeug.utils import import_string
 
 from elegon.ext import db, openid2
+from elegon.log import init_logging
 from elegon.models import User
 from elegon.utils import paginator_kwargs
-from elegon.schedule import init_scheduler
+from elegon.schedule import init_scheduler, start_scheduler, stop_scheduler
 
 blueprints = (
     'index',
@@ -41,7 +43,12 @@ def create_app(init=False):
         g.start = request.args.get('start', type=int, default=0)
         g.limit = request.args.get('limit', type=int, default=20)
 
+    init_logging()
+
     if init:
-        s = init_scheduler()
-        s.start()
+        init_scheduler()
+        start_scheduler()
+        signal.signal(signal.SIGTERM, stop_scheduler)
+        signal.signal(signal.SIGHUP, stop_scheduler)
+
     return app

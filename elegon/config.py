@@ -19,7 +19,8 @@ OPENID2_LOGOUT = 'http://openids.intra.hunantv.com/auth/logout/'
 
 
 DEBUG = bool(int(os.getenv('DEBUG', '1')))
-SERVER_NAME = os.getenv('SERVER_NAME', 'localhost')
+CRONTAB_DEBUG = bool(int(os.getenv('CRONTAB_DEBUG', '0')))
+SERVER_NAME = os.getenv('SERVER_NAME', 'localhost:5000')
 
 try:
     from .local_config import *
