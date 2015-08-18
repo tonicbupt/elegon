@@ -59,12 +59,14 @@ def create():
     props = {key: request.form.get(key, '') for key in property_keys}
     kw = props.copy()
     kw.pop('network_ids', None)
+    kw.pop('env', '')
     if not all(kw.values()):
         flash(u'输入参数不对', 'error')
         return redirect(url_for('crontab.create'))
 
     network_ids = request.form.getlist('network_ids') or []
     props['network_ids'] = network_ids
+    props['env'] = request.form.get('env', 'prod')
 
     c = Crontab.create(name, crontab_kwargs, props)
     if not c:
