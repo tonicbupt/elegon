@@ -9,4 +9,4 @@ entrypoints:
         ports:
             - "5000/tcp"
         privileged: true
-build: "pip install -r ./requirements.txt --index-url=http://pypi.douban.com/simple/"
+build: "pip install -r ./requirements.txt"
